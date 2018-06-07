@@ -1,0 +1,158 @@
+﻿<Window x:Class="TicTacToe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TicTacToe"
+        mc:Ignorable="d"
+        x:Name="FormBoard"
+        Title="MainWindow" MinHeight="300" MinWidth="300" Height="300" Width="300"
+        Background="DarkGray">
+    <Grid>
+
+        <StackPanel Orientation="Horizontal" Height="25" VerticalAlignment="Top">
+            <Separator Width="10"/>
+            <Label MinWidth="20">
+                <Label.Background>
+                    <ImageBrush ImageSource="_0.png" Stretch="Uniform"/>
+                </Label.Background>
+            </Label>
+            <Label Content="="/>
+            <Label Content="25" MinWidth="25" HorizontalContentAlignment="Center"/>
+            <Label Content="Ход крестика" HorizontalContentAlignment="Center"
+                Width="{Binding ElementName=FormBoard, Path=ActualWidth, Converter={local:ElementsFormConverter}, ConverterParameter=155}"/>
+            <Label Content="5" MinWidth="25" HorizontalContentAlignment="Center"/>
+            <Label Content="="/>
+            <Label MinWidth="20">
+                <Label.Background>
+                    <ImageBrush ImageSource="_1.png" Stretch="Uniform"/>
+                </Label.Background>
+            </Label>
+            <Separator Width="10"/>
+        </StackPanel>
+        
+        <UniformGrid Rows="3" Columns="3" Margin="2,25,2,2">
+   
+            <!--Row 1-->
+            <Canvas x:Name="CanvasRow1Column1" Margin="2">
+                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow1Column1, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow1Column1, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow1Column1, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow1Column1, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_1.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+
+            <Canvas x:Name="CanvasRow1Column2" Margin="2">
+                <Rectangle Fill="DimGray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow1Column2, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow1Column2, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow1Column2, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow1Column2, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_0.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+
+            <Canvas x:Name="CanvasRow1Column3" Margin="2">
+                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow1Column3, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow1Column3, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow1Column3, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow1Column3, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_0.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+
+            <!--Row 2-->
+            <Canvas x:Name="CanvasRow2Column1" Margin="2">
+                <Rectangle Fill="DimGray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow2Column1, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow2Column1, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow2Column1, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow2Column1, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_1.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+
+            <Canvas x:Name="CanvasRow2Column2" Margin="2">
+                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow2Column2, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow2Column2, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow2Column2, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow2Column2, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_0.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+
+            <Canvas x:Name="CanvasRow2Column3" Margin="2">
+                <Rectangle Fill="DimGray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow2Column3, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow2Column3, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow2Column3, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow2Column3, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_1.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+
+            <!--Row 3-->
+            <Canvas x:Name="CanvasRow3Column1" Margin="2">
+                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow3Column1, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow3Column1, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow3Column1, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow3Column1, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_0.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+
+            <Canvas x:Name="CanvasRow3Column2" Margin="2">
+                <Rectangle Fill="DimGray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow3Column2, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow3Column2, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow3Column2, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow3Column2, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_1.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+
+            <Canvas x:Name="CanvasRow3Column3" Margin="2">
+                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow3Column3, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow3Column3, Path=ActualHeight}"/>
+                <Rectangle RadiusX="5" RadiusY="5"
+                           Width="{Binding ElementName=CanvasRow3Column3, Path=ActualWidth}"
+                           Height="{Binding ElementName=CanvasRow3Column3, Path=ActualHeight}">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="_0.png" Stretch="Uniform"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+        
+        </UniformGrid>
+    </Grid>
+</Window>
