@@ -76,17 +76,17 @@ namespace TicTacToe
 
         private void CheckValueBoard()
         {
-            ImageRow1Column1.ImageSource = _board.Row1Column1 == null ? null : ((bool)_board.Row1Column1 ? _imageSourceXs : _imageSourceOs);
-            ImageRow1Column2.ImageSource = _board.Row1Column2 == null ? null : ((bool)_board.Row1Column2 ? _imageSourceXs : _imageSourceOs);
-            ImageRow1Column3.ImageSource = _board.Row1Column3 == null ? null : ((bool)_board.Row1Column3 ? _imageSourceXs : _imageSourceOs);
+            ImageRow1Column1.ImageSource = _board.Row1Column1 < 0 ? null : (_board.Row1Column1 == 1 ? _imageSourceXs : _imageSourceOs);
+            ImageRow1Column2.ImageSource = _board.Row1Column2 < 0 ? null : (_board.Row1Column2 == 1 ? _imageSourceXs : _imageSourceOs);
+            ImageRow1Column3.ImageSource = _board.Row1Column3 < 0 ? null : (_board.Row1Column3 == 1 ? _imageSourceXs : _imageSourceOs);
 
-            ImageRow2Column1.ImageSource = _board.Row2Column1 == null ? null : ((bool)_board.Row2Column1 ? _imageSourceXs : _imageSourceOs);
-            ImageRow2Column2.ImageSource = _board.Row2Column2 == null ? null : ((bool)_board.Row2Column2 ? _imageSourceXs : _imageSourceOs);
-            ImageRow2Column3.ImageSource = _board.Row2Column3 == null ? null : ((bool)_board.Row2Column3 ? _imageSourceXs : _imageSourceOs);
+            ImageRow2Column1.ImageSource = _board.Row2Column1 < 0 ? null : (_board.Row2Column1 == 1 ? _imageSourceXs : _imageSourceOs);
+            ImageRow2Column2.ImageSource = _board.Row2Column2 < 0 ? null : (_board.Row2Column2 == 1 ? _imageSourceXs : _imageSourceOs);
+            ImageRow2Column3.ImageSource = _board.Row2Column3 < 0 ? null : (_board.Row2Column3 == 1 ? _imageSourceXs : _imageSourceOs);
 
-            ImageRow3Column1.ImageSource = _board.Row3Column1 == null ? null : ((bool)_board.Row3Column1 ? _imageSourceXs : _imageSourceOs);
-            ImageRow3Column2.ImageSource = _board.Row3Column2 == null ? null : ((bool)_board.Row3Column2 ? _imageSourceXs : _imageSourceOs);
-            ImageRow3Column3.ImageSource = _board.Row3Column3 == null ? null : ((bool)_board.Row3Column3 ? _imageSourceXs : _imageSourceOs);
+            ImageRow3Column1.ImageSource = _board.Row3Column1 < 0 ? null : (_board.Row3Column1 == 1 ? _imageSourceXs : _imageSourceOs);
+            ImageRow3Column2.ImageSource = _board.Row3Column2 < 0 ? null : (_board.Row3Column2 == 1 ? _imageSourceXs : _imageSourceOs);
+            ImageRow3Column3.ImageSource = _board.Row3Column3 < 0 ? null : (_board.Row3Column3 == 1 ? _imageSourceXs : _imageSourceOs);
         }
 
         private void ChangeGameStep()
@@ -153,7 +153,7 @@ namespace TicTacToe
         private bool CheckWin()
         {
             if (_board.Win || _board.FilledAllCells)
-                    MessageBox.Show(Step);
+                MessageBox.Show(Step);
 
             return _board.Win;
         }
