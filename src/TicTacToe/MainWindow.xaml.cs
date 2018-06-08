@@ -31,6 +31,9 @@ namespace TicTacToe
         private readonly ImageSource _imageSourceOs = new BitmapImage(new Uri("pack://application:,,,/TicTacToe;component/_Os.png"));
         private readonly string _textStepXs = "Ход крестика";
         private readonly string _textStepOs = "Ход нолика";
+        private readonly string _textStepWinXs = "Победа крестиков";
+        private readonly string _textStepWinOs = "Победа ноликов";
+        private readonly string _textStepFilledAllCells = "Ничья";
 
         public MainWindow()
         {
@@ -57,13 +60,18 @@ namespace TicTacToe
             WinsXs = 0;
             WinsOs = 0;
 
-            BindingOperations.GetBindingExpression(LabelWinsXs, ContentProperty).UpdateTarget();
-            BindingOperations.GetBindingExpression(LabelWinsOs, ContentProperty).UpdateTarget();
+            UpdateTargetWins();
 
             _board.Clear();
 
             CheckValueBoard();
             ChangeGameStep();
+        }
+
+        private void UpdateTargetWins()
+        {
+            BindingOperations.GetBindingExpression(LabelWinsXs, ContentProperty).UpdateTarget();
+            BindingOperations.GetBindingExpression(LabelWinsOs, ContentProperty).UpdateTarget();
         }
 
         private void CheckValueBoard()
@@ -83,79 +91,77 @@ namespace TicTacToe
 
         private void ChangeGameStep()
         {
-            _step = !_step;
+            if (_board.Win)
+            {
+                if (_board.WinXs)
+                {
+                    WinsXs++;
+                    Step = _textStepWinXs;
+                }
+                else
+                {
+                    WinsOs++;
+                    Step = _textStepWinOs;
+                }
+                UpdateTargetWins();
+            }
+            else if (_board.FilledAllCells)
+            {
+                Step = _textStepFilledAllCells;
+            }
+            else
+            {
+                _step = !_step;
 
-            Step = _step ? _textStepXs : _textStepOs;
+                Step = _step ? _textStepXs : _textStepOs;
+            }
 
             BindingOperations.GetBindingExpression(LabelStep, ContentProperty).UpdateTarget();
         }
 
         #region Board
 
-        private void CanvasRow1Column1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void UserStep(object canvas)
         {
-            _board.Row1Column1 = _step;
-            ChangeGameStep();
-            CheckValueBoard();
+            if (canvas is Canvas cell)
+                if (!CheckWin())
+                {
+                    if (_board.SetValueCell(cell.Name.Substring(6), _step))
+                        ChangeGameStep();
+                    UpdateBoard();
+                }
         }
 
-        private void CanvasRow1Column2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void UpdateBoard()
         {
-            _board.Row1Column2 = _step;
-            ChangeGameStep();
             CheckValueBoard();
+            CheckWin();
         }
 
-        private void CanvasRow1Column3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _board.Row1Column3 = _step;
-            ChangeGameStep();
-            CheckValueBoard();
-        }
-
-        private void CanvasRow2Column1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _board.Row2Column1 = _step;
-            ChangeGameStep();
-            CheckValueBoard();
-        }
-
-        private void CanvasRow2Column2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _board.Row2Column2 = _step;
-            ChangeGameStep();
-            CheckValueBoard();
-        }
-
-        private void CanvasRow2Column3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _board.Row2Column3 = _step;
-            ChangeGameStep();
-            CheckValueBoard();
-        }
-
-        private void CanvasRow3Column1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _board.Row3Column1 = _step;
-            ChangeGameStep();
-            CheckValueBoard();
-        }
-
-        private void CanvasRow3Column2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _board.Row3Column2 = _step;
-            ChangeGameStep();
-            CheckValueBoard();
-        }
-
-        private void CanvasRow3Column3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _board.Row3Column3 = _step;
-            ChangeGameStep();
-            CheckValueBoard();
-        }
+        private void CanvasRow1Column1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
+        private void CanvasRow1Column2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
+        private void CanvasRow1Column3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
+        private void CanvasRow2Column1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
+        private void CanvasRow2Column2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
+        private void CanvasRow2Column3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
+        private void CanvasRow3Column1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
+        private void CanvasRow3Column2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
+        private void CanvasRow3Column3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
 
         #endregion
 
+        private bool CheckWin()
+        {
+            if (_board.Win || _board.FilledAllCells)
+                    MessageBox.Show(Step);
+
+            return _board.Win;
+        }
+
+        private void ButtonNextGame_Click(object sender, RoutedEventArgs e)
+        {
+            _board.NextGame();
+            UpdateBoard();
+        }
     }
 }

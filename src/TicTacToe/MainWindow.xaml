@@ -177,6 +177,8 @@
                 <Separator Width="10"/>
                 <Button x:Name="ButtonStartOver" Content="Начать с начала" Style="{StaticResource ButtonBase}" Click="ButtonStartOver_Click"/>
                 <Separator Width="10"/>
+                <Button x:Name="ButtonNextGame" Content="Следующая игра" Style="{StaticResource ButtonBase}" Click="ButtonNextGame_Click"/>
+                <Separator Width="10"/>
             </StackPanel>
         </StackPanel>
 
