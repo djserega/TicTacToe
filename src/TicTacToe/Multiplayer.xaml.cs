@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,21 +21,27 @@ namespace TicTacToe
     /// </summary>
     public partial class Multiplayer : Window
     {
+        private IPAddress _currentIP;
         public Multiplayer()
         {
             InitializeComponent();
 
             IPHostEntry iPHost = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress currentIP = iPHost.AddressList.FirstOrDefault(f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
-            if (currentIP == null)
+            _currentIP = iPHost.AddressList.FirstOrDefault(f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+            if (_currentIP == null)
             {
                 MessageBox.Show("Не удалось настроить мультиплеер.");
                 Close();
                 return;
             }
+            IPCurrent.IP = _currentIP.ToString();
+        }
 
-            IPCurrent.IP = currentIP.ToString();
-
+        private void ButtonConnect_Click(object sender, RoutedEventArgs e)
+        {
+            MultiplayerServer mpServer = new MultiplayerServer(_currentIP);
+            mpServer.StartServer();
+            mpServer.StartClient();
         }
     }
 }

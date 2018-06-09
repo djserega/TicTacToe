@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MultiplayerServer.cs" />
     <Compile Include="UserControlIP.xaml.cs">
       <DependentUpon>UserControlIP.xaml</DependentUpon>
     </Compile>

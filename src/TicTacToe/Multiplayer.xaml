@@ -7,8 +7,24 @@
         mc:Ignorable="d"
         Background="Gray"
         Title="Multiplayer" Height="250" Width="250">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="ButtonBase">
+            <Setter Property="Background" Value="DarkGray" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="4" Background="DarkGray" BorderBrush="#ccc" BorderThickness="2,1,2,1" >
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
+            <Separator Height="5"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Ваш IP" MinWidth="100"/>
                 <local:UserControlIP x:Name="IPCurrent" IsReadOnly="True"/>
@@ -17,6 +33,11 @@
                 <Label Content="IP противника" MinWidth="100"/>
                 <local:UserControlIP x:Name="IPOpponent"/>
             </StackPanel>
+            <Separator Height="5"/>
+
+            <Button x:Name="ButtonConnect" Content="Подключиться" Style="{StaticResource ButtonBase}"
+                    Click="ButtonConnect_Click"/>
+
         </StackPanel>
     </Grid>
 </Window>
