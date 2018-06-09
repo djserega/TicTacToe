@@ -153,12 +153,23 @@ namespace TicTacToe
         private bool CheckWin()
         {
             if (_board.Win || _board.FilledAllCells)
+            {
                 MessageBox.Show(Step);
+
+                MessageBoxResult result = MessageBox.Show(this,"Следующая игра?", "Игра закончена", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+                if (result == MessageBoxResult.Yes)
+                    NextGame();
+            }
 
             return _board.Win;
         }
 
         private void ButtonNextGame_Click(object sender, RoutedEventArgs e)
+        {
+            NextGame();
+        }
+
+        private void NextGame()
         {
             _board.NextGame();
             UpdateBoard();
