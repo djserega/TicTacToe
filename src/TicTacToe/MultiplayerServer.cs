@@ -5,42 +5,65 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace TicTacToe
 {
-    internal class MultiplayerServer
+    internal class MultiplayerServer : IDisposable
     {
-        private IPAddress _currentIP;
+        internal TcpClient _client;
+        internal TcpListener _server;
 
-        internal MultiplayerServer(IPAddress currentIP)
-        {
-            _currentIP = currentIP;
-        }
+        internal IPAddress CurrentIP { get; set; }
+        internal IPAddress OpponentIP { get; set; }
 
         internal async void StartServer()
         {
-            TcpListener server = new TcpListener(_currentIP, 55466);
-            server.Start();
-            
-            TcpClient tcpClient = await server.AcceptTcpClientAsync();
+            _server = new TcpListener(CurrentIP, 55466);
+            _server.Start();
 
-            NetworkStream clientStream = tcpClient.GetStream();
+            TcpClient tcpClient = await _server.AcceptTcpClientAsync();
 
-            byte[] data = new byte[256];
-            int lenghtData = clientStream.Read(data, 0, data.Length);
+            while (true)
+            {
+                NetworkStream clientStream = tcpClient.GetStream();
 
-            string textServer = Encoding.UTF8.GetString(data, 0, lenghtData);
+                byte[] data = new byte[256];
+                int lenghtData = clientStream.Read(data, 0, data.Length);
 
-            server.Stop();
+                if (lenghtData > 0)
+                {
+                    string textServer = Encoding.UTF8.GetString(data, 0, lenghtData);
+                    MessageBox.Show(textServer);
+                }
+            }
         }
 
-        internal async void StartClient()
+        internal void StartClient()
         {
-            TcpClient client = new TcpClient(_currentIP.ToString(), 55466);
-            NetworkStream serverStream = client.GetStream();
+            _client = new TcpClient(OpponentIP.ToString(), 55466);
+            SendMessage("Ок. Я подключился.");
+        }
 
-            byte[] data = Encoding.UTF8.GetBytes("Ок. Я подключился.");
+        internal void SendMessage(string text)
+        {
+            NetworkStream serverStream = _client.GetStream();
+
+            byte[] data = Encoding.UTF8.GetBytes(text);
             serverStream.Write(data, 0, data.Length);
+        }
+
+        public void Dispose()
+        {
+            if (_server != null)
+            {
+                _server.Stop();
+            }
+
+            if (_client != null)
+            {
+                _client.Dispose();
+            }
         }
     }
 }

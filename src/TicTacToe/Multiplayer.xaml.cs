@@ -22,6 +22,10 @@ namespace TicTacToe
     public partial class Multiplayer : Window
     {
         private IPAddress _currentIP;
+        private MultiplayerServer _mpServer;
+        private MultiplayerServer _mpClient;
+
+
         public Multiplayer()
         {
             InitializeComponent();
@@ -39,9 +43,19 @@ namespace TicTacToe
 
         private void ButtonConnect_Click(object sender, RoutedEventArgs e)
         {
-            MultiplayerServer mpServer = new MultiplayerServer(_currentIP);
-            mpServer.StartServer();
-            mpServer.StartClient();
+            _mpServer = new MultiplayerServer() { CurrentIP = _currentIP };
+            _mpServer.StartServer();
+        }
+
+        private void ButtonConnectOpponent_Click(object sender, RoutedEventArgs e)
+        {
+            _mpClient = new MultiplayerServer() { OpponentIP = _currentIP };
+            _mpClient.StartClient();
+        }
+
+        private void ButtonSendMessage_Click(object sender, RoutedEventArgs e)
+        {
+            _mpClient.SendMessage(TextBoxMessageToServer.Text);
         }
     }
 }

@@ -35,8 +35,17 @@
             </StackPanel>
             <Separator Height="5"/>
 
-            <Button x:Name="ButtonConnect" Content="Подключиться" Style="{StaticResource ButtonBase}"
+            <Button x:Name="ButtonConnect" Content="Создать сервер" Style="{StaticResource ButtonBase}"
                     Click="ButtonConnect_Click"/>
+
+            <Separator Height="5"/>
+
+            <Button x:Name="ButtonConnectOpponent" Content="Подключиться к серверу" Style="{StaticResource ButtonBase}"
+                    Click="ButtonConnectOpponent_Click"/>
+            <Separator Background="{x:Null}"/>
+            <TextBox x:Name="TextBoxMessageToServer" Background="DarkGray"/>
+            <Separator Background="{x:Null}"/>
+            <Button x:Name="ButtonSendMessage" Content="Отправить сообщение" Style="{StaticResource ButtonBase}" Click="ButtonSendMessage_Click"/>
 
         </StackPanel>
     </Grid>
