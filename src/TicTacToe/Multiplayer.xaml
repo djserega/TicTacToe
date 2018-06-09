@@ -11,11 +11,11 @@
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Ваш IP" MinWidth="100"/>
-                <local:UserControlIP IsReadOnly="True"/>
+                <local:UserControlIP x:Name="IPCurrent" IsReadOnly="True"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="IP противника" MinWidth="100"/>
-                <local:UserControlIP />
+                <local:UserControlIP x:Name="IPOpponent"/>
             </StackPanel>
         </StackPanel>
     </Grid>

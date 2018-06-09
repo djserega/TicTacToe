@@ -23,12 +23,14 @@ namespace TicTacToe
         #region class variables and properties
 
         #region public variables and properties
-        public TextBox FirstBox { get { return firstBox; } }
-        public TextBox SecondBox { get { return secondBox; } }
-        public TextBox ThirdBox { get { return thirdBox; } }
-        public TextBox FourthBox { get { return fourthBox; } }
+        public TextBox FirstBox { get { return Part1; } }
+        public TextBox SecondBox { get { return Part2; } }
+        public TextBox ThirdBox { get { return Part3; } }
+        public TextBox FourthBox { get { return Part4; } }
 
         public bool IsReadOnly { get; set; }
+
+        public string IP { set => ParseStringIP(value); }
         #endregion
 
         #region private variables and properties
@@ -48,10 +50,10 @@ namespace TicTacToe
         {
             InitializeComponent();
 
-            firstBox.Text = Convert.ToString(bytesToFill[0]);
-            secondBox.Text = Convert.ToString(bytesToFill[1]);
-            thirdBox.Text = Convert.ToString(bytesToFill[2]);
-            fourthBox.Text = Convert.ToString(bytesToFill[3]);
+            Part1.Text = Convert.ToString(bytesToFill[0]);
+            Part2.Text = Convert.ToString(bytesToFill[1]);
+            Part3.Text = Convert.ToString(bytesToFill[2]);
+            Part4.Text = Convert.ToString(bytesToFill[3]);
         }
         #endregion
 
@@ -62,10 +64,10 @@ namespace TicTacToe
         {
             byte[] userInput = new byte[4];
 
-            userInput[0] = Convert.ToByte(firstBox.Text);
-            userInput[1] = Convert.ToByte(secondBox.Text);
-            userInput[2] = Convert.ToByte(thirdBox.Text);
-            userInput[3] = Convert.ToByte(fourthBox.Text);
+            userInput[0] = Convert.ToByte(Part1.Text);
+            userInput[1] = Convert.ToByte(Part2.Text);
+            userInput[2] = Convert.ToByte(Part3.Text);
+            userInput[3] = Convert.ToByte(Part4.Text);
 
             return userInput;
         }
@@ -154,7 +156,7 @@ namespace TicTacToe
             {
                 e.Handled = true;
                 //SystemSounds.Beep.Play();
-                if (currentBox != fourthBox)
+                if (currentBox != Part4)
                 {
                     rightNeighborBox.Focus();
                     rightNeighborBox.SelectAll();
@@ -181,7 +183,7 @@ namespace TicTacToe
                     MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                if (currentBox.CaretIndex != 2 && currentBox != fourthBox)
+                if (currentBox.CaretIndex != 2 && currentBox != Part4)
                 {
                     rightNeighborBox.CaretIndex = rightNeighborBox.Text.Length;
                     rightNeighborBox.SelectAll();
@@ -204,7 +206,7 @@ namespace TicTacToe
                     return;
                 }
 
-            CheckJumpRight(firstBox, firstBox, secondBox, e);
+            CheckJumpRight(Part1, Part1, Part2, e);
         }
 
         private void SecondByte_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -216,10 +218,10 @@ namespace TicTacToe
                     return;
                 }
 
-            if (CheckJumpRight(firstBox, secondBox, thirdBox, e))
+            if (CheckJumpRight(Part1, Part2, Part3, e))
                 return;
 
-            CheckJumpLeft(secondBox, firstBox, e);
+            CheckJumpLeft(Part2, Part1, e);
         }
 
         private void ThirdByte_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -231,10 +233,10 @@ namespace TicTacToe
                     return;
                 }
 
-            if (CheckJumpRight(secondBox, thirdBox, fourthBox, e))
+            if (CheckJumpRight(Part2, Part3, Part4, e))
                 return;
 
-            CheckJumpLeft(thirdBox, secondBox, e);
+            CheckJumpLeft(Part3, Part2, e);
         }
 
         private void FourthByte_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -246,7 +248,7 @@ namespace TicTacToe
                     return;
                 }
 
-            CheckJumpLeft(fourthBox, thirdBox, e);
+            CheckJumpLeft(Part4, Part3, e);
 
             if (e.Key == Key.Space)
             {
@@ -259,22 +261,22 @@ namespace TicTacToe
         //discards non digits, prepares IPMaskedBox for textchange.
         private void FirstByte_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            HandleTextInput(firstBox, secondBox, e);
+            HandleTextInput(Part1, Part2, e);
         }
 
         private void SecondByte_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            HandleTextInput(secondBox, thirdBox, e);
+            HandleTextInput(Part2, Part3, e);
         }
 
         private void ThirdByte_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            HandleTextInput(thirdBox, fourthBox, e);
+            HandleTextInput(Part3, Part4, e);
         }
 
         private void FourthByte_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            HandleTextInput(fourthBox, fourthBox, e); //pass fourthbyte twice because no right neighboring box.
+            HandleTextInput(Part4, Part4, e); //pass fourthbyte twice because no right neighboring box.
         }
 
 
@@ -282,26 +284,36 @@ namespace TicTacToe
         //clears if > 255, switches to next textbox otherwise 
         private void FirstByte_TextChanged(object sender, TextChangedEventArgs e)
         {
-            HandleTextChange(firstBox, secondBox);
+            HandleTextChange(Part1, Part2);
         }
 
         private void SecondByte_TextChanged(object sender, TextChangedEventArgs e)
         {
-            HandleTextChange(secondBox, thirdBox);
+            HandleTextChange(Part2, Part3);
         }
 
         private void ThirdByte_TextChanged(object sender, TextChangedEventArgs e)
         {
-            HandleTextChange(thirdBox, fourthBox);
+            HandleTextChange(Part3, Part4);
         }
 
         private void FourthByte_TextChanged(object sender, TextChangedEventArgs e)
         {
-            HandleTextChange(fourthBox, fourthBox);
+            HandleTextChange(Part4, Part4);
         }
         #endregion
 
         private bool IsKeyDigit(Key key)
             => !((key >= Key.D0 && key <= Key.D9) && (key >= Key.NumPad0 && key <= Key.NumPad9));
+
+        private void ParseStringIP(string value)
+        {
+            string[] partsIP = value.Split('.');
+
+            Part1.Text = partsIP[0];
+            Part2.Text = partsIP[1];
+            Part3.Text = partsIP[2];
+            Part4.Text = partsIP[3];
+        }
     }
 }
