@@ -174,5 +174,11 @@ namespace TicTacToe
             _board.NextGame();
             UpdateBoard();
         }
+
+        private void ButtonMultiplayer_Click(object sender, RoutedEventArgs e)
+        {
+            Multiplayer form = new Multiplayer();
+            form.ShowDialog();
+        }
     }
 }
