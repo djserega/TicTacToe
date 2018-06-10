@@ -60,9 +60,11 @@ namespace TicTacToe
             if (!string.IsNullOrEmpty(_receivedMessage.Message.Text))
             {
                 Step = _receivedMessage.Message.Text;
+                _board = _receivedMessage.Message.Board;
                 Step += " --- ";
                 Dispatcher.Invoke(new ThreadStart(delegate
                 {
+                    UpdateBoard();
                     BindingOperations.GetBindingExpression(LabelStep, ContentProperty).UpdateTarget();
                 }));
             }

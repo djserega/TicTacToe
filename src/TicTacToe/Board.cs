@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace TicTacToe
 {
@@ -82,7 +83,7 @@ namespace TicTacToe
             else
                 Row2Win = null;
 
-            if (_countValueRow3 == 0 || _countValueRow3 ==3)
+            if (_countValueRow3 == 0 || _countValueRow3 == 3)
             {
                 Row3Win = _countValueRow3 == 3 ? true : false;
                 SetStateWin((bool)Row3Win);
@@ -92,7 +93,7 @@ namespace TicTacToe
             #endregion
 
             #region Columns win
-            if (_countValueColumn1 == 0 || _countValueColumn1 ==3)
+            if (_countValueColumn1 == 0 || _countValueColumn1 == 3)
             {
                 Column1Win = _countValueColumn1 == 3 ? true : false;
                 SetStateWin((bool)Column1Win);
@@ -232,5 +233,39 @@ namespace TicTacToe
         private void CheckDiagonal1() => _countValueDiagonal1 = _row1Column1 + _row2Column2 + _row3Column3;
         private void CheckDiagonal2() => _countValueDiagonal2 = _row1Column3 + _row2Column2 + _row3Column1;
 
+        public override string ToString()
+        {
+            string[] cellData = new string[9]
+            {
+                _row1Column1.ToString(),
+                _row1Column2.ToString(),
+                _row1Column3.ToString(),
+                _row2Column1.ToString(),
+                _row2Column2.ToString(),
+                _row2Column3.ToString(),
+                _row3Column1.ToString(),
+                _row3Column2.ToString(),
+                _row3Column3.ToString()
+            };
+
+            return new JavaScriptSerializer().Serialize(cellData);
+        }
+
+        public void Parse(string text)
+        {
+            string[] cellData = new JavaScriptSerializer().Deserialize<string[]>(text);
+            _row1Column1 = int.Parse(cellData[0]);
+            _row1Column2 = int.Parse(cellData[1]);
+            _row1Column3 = int.Parse(cellData[2]);
+            _row2Column1 = int.Parse(cellData[3]);
+            _row2Column2 = int.Parse(cellData[4]);
+            _row2Column3 = int.Parse(cellData[5]);
+            _row3Column1 = int.Parse(cellData[6]);
+            _row3Column2 = int.Parse(cellData[7]);
+            _row3Column3 = int.Parse(cellData[8]);
+
+            CheckAllBoard();
+            CheckWinState();
+        }
     }
 }

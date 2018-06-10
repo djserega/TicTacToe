@@ -36,7 +36,10 @@ namespace TicTacToe
             string[] message = new string[3];
             message[0] = serializer.Serialize(TypeTransport);
             message[1] = serializer.Serialize(Text);
-            message[2] = serializer.Serialize(Board);
+            if (Board == null)
+                message[2] = string.Empty;
+            else
+                message[2] = serializer.Serialize(Board.ToString());
 
             return new JavaScriptSerializer().Serialize(message);
         }
@@ -51,9 +54,11 @@ namespace TicTacToe
 
                 TypeTransport = deserializer.Deserialize<TypeTransportObject>(message[0]);
                 Text = deserializer.Deserialize<string>(message[1]);
-                Board = deserializer.Deserialize<Board>(message[2]);
+                if (Board == null)
+                    Board = new Board();
+                Board.Parse(deserializer.Deserialize<string>(message[2]));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }

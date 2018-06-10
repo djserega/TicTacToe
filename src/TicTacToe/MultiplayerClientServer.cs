@@ -73,6 +73,8 @@ namespace TicTacToe
 
                 byte[] data = Encoding.UTF8.GetBytes(text);
                 serverStream.Write(data, 0, data.Length);
+
+                //MessageBox.Show(text);
             }
             else
             {
