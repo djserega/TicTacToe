@@ -39,6 +39,7 @@ namespace TicTacToe
         private readonly string _textStepWinOs = "Победа ноликов";
         private readonly string _textStepFilledAllCells = "Ничья";
 
+        private bool IsActiveMultiplayer { get => _connector != null; }
         private MultiplayerClientServer _connector;
         private TransportObjects _message;
 
@@ -61,14 +62,17 @@ namespace TicTacToe
             {
                 _message = _receivedMessage.Message;
 
+                _step = _message.TypeTransport == TypeTransportObject.StepXs;
                 Step = _message.Text;
                 _board = _message.Board;
-                _step = _message.TypeTransport == TypeTransportObject.StepXs;
-                Step += " --- ";
+                WinsXs = _message.WinsXs;
+                WinsOs = _message.WinsOs;
+
                 Dispatcher.Invoke(new ThreadStart(delegate
                 {
                     UpdateBoard();
                     BindingOperations.GetBindingExpression(LabelStep, ContentProperty).UpdateTarget();
+                    UpdateTargetWins();
                 }));
             }
         }
@@ -187,9 +191,12 @@ namespace TicTacToe
             {
                 MessageBox.Show(Step);
 
-                MessageBoxResult result = MessageBox.Show(this,"Следующая игра?", "Игра закончена", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
-                if (result == MessageBoxResult.Yes)
-                    NextGame();
+                if (!IsActiveMultiplayer)
+                {
+                    MessageBoxResult result = MessageBox.Show(this, "Следующая игра?", "Игра закончена", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+                    if (result == MessageBoxResult.Yes)
+                        NextGame();
+                }
             }
 
             return _board.Win;

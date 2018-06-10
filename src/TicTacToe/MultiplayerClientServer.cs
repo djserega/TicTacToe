@@ -72,9 +72,14 @@ namespace TicTacToe
                 NetworkStream serverStream = Client.GetStream();
 
                 byte[] data = Encoding.UTF8.GetBytes(text);
-                serverStream.Write(data, 0, data.Length);
 
-                //MessageBox.Show(text);
+                try
+                {
+                    serverStream.Write(data, 0, data.Length);
+                }
+                catch (IOException)
+                {
+                }
             }
             else
             {

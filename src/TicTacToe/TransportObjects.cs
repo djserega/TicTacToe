@@ -12,6 +12,9 @@ namespace TicTacToe
         internal TypeTransportObject TypeTransport { get; set; }
         internal string Text { get; set; }
         internal Board Board { get; set; }
+        internal int WinsXs { get; set; }
+        internal int WinsOs { get; set; }
+
 
         internal bool IsFilled { get => ObjectIsFilled(); }
 
@@ -25,21 +28,25 @@ namespace TicTacToe
         private bool ObjectIsFilled()
         {
             return TypeTransport != TypeTransportObject.Empty
-                || !string.IsNullOrWhiteSpace(Text)
-                || false;
+                || !string.IsNullOrWhiteSpace(Text);
         }
 
         public override string ToString()
         {
             var serializer = new JavaScriptSerializer();
 
-            string[] message = new string[3];
-            message[0] = serializer.Serialize(TypeTransport);
-            message[1] = serializer.Serialize(Text);
-            if (Board == null)
-                message[2] = string.Empty;
-            else
-                message[2] = serializer.Serialize(Board.ToString());
+            string textBoard = string.Empty;
+            if (Board != null)
+                textBoard = serializer.Serialize(Board.ToString());
+
+            string[] message = new string[5]
+            {
+                serializer.Serialize(TypeTransport),
+                serializer.Serialize(Text),
+                textBoard,
+                WinsXs.ToString(),
+                WinsOs.ToString()
+            };
 
             return new JavaScriptSerializer().Serialize(message);
         }
@@ -57,6 +64,8 @@ namespace TicTacToe
                 if (Board == null)
                     Board = new Board();
                 Board.Parse(deserializer.Deserialize<string>(message[2]));
+                WinsXs = int.Parse(message[3]);
+                WinsOs = int.Parse(message[4]);
             }
             catch (Exception)
             {
