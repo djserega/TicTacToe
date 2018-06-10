@@ -56,7 +56,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Enums.cs" />
-    <Compile Include="MultiplayerServer.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="MultiplayerClientServer.cs" />
     <Compile Include="TransportObjects.cs" />
     <Compile Include="UserControlIP.xaml.cs">
       <DependentUpon>UserControlIP.xaml</DependentUpon>

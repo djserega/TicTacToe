@@ -45,11 +45,17 @@ namespace TicTacToe
         {
             var deserializer = new JavaScriptSerializer();
 
-            string[] message = deserializer.Deserialize<string[]>(serializedText);
+            try
+            {
+                string[] message = deserializer.Deserialize<string[]>(serializedText);
 
-            TypeTransport = deserializer.Deserialize<TypeTransportObject>(message[0]);
-            Text = deserializer.Deserialize<string>(message[1]);
-            Board = deserializer.Deserialize<Board>(message[2]);
+                TypeTransport = deserializer.Deserialize<TypeTransportObject>(message[0]);
+                Text = deserializer.Deserialize<string>(message[1]);
+                Board = deserializer.Deserialize<Board>(message[2]);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

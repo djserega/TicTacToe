@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,9 @@ namespace TicTacToe
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ReceivedMessageEvents _receivedMessage;
+        internal ReceivedMessageEvents ReceivedMessage { get => _receivedMessage; }
+
         public int WinsXs { get; private set; }
         public int WinsOs { get; private set; }
         public string Step { get; private set; }
@@ -46,7 +50,22 @@ namespace TicTacToe
 
             DataContext = this;
 
+            _receivedMessage = new ReceivedMessageEvents();
+            _receivedMessage.ReceivedMessage += _receivedMessage_ReceivedMessage;
             StartOver();
+        }
+
+        private void _receivedMessage_ReceivedMessage()
+        {
+            if (!string.IsNullOrEmpty(_receivedMessage.Message.Text))
+            {
+                Step = _receivedMessage.Message.Text;
+                Step += " --- ";
+                Dispatcher.Invoke(new ThreadStart(delegate
+                {
+                    BindingOperations.GetBindingExpression(LabelStep, ContentProperty).UpdateTarget();
+                }));
+            }
         }
 
         private void FormBoard_Loaded(object sender, RoutedEventArgs e)
@@ -192,25 +211,11 @@ namespace TicTacToe
             else if (form.IsClient)
                 _connector = form.Client;
 
-            StartMultiplayer();
-        }
-
-        private void StartMultiplayer()
-        {
-            if (_connector == null)
-                return;
-
-            _message = new TransportObjects();
-
-            if (_connector.IsServer)
+            if (_connector != null)
             {
+                _connector.ReceivedMessage = _receivedMessage;
+                _message = new TransportObjects();
             }
-            else if (_connector.IsClient)
-            {
-                ReadMessage();
-            }
-
-            _connector.SendMessage(_message.ToString());
         }
 
         private void SendMessage()
@@ -220,28 +225,19 @@ namespace TicTacToe
 
             _message.Clear();
 
-            if (_connector.IsServer)
-            {
-                _message.Text = "Ход крестиков :-))";
-                _message.Board = Board;
-            }
-            else if (_connector.IsClient)
-            {
-                _message.Text = "Ход ноликов :-))";
-                _message.Board = Board;
-            }
+            _message.TypeTransport = _step ? TypeTransportObject.StepXs : TypeTransportObject.StepOs;
+            _message.Text = _step ? _textStepXs : _textStepOs;
+            _message.Board = Board;
 
             _connector.SendMessage(_message.ToString());
-
-            _message.Clear();
 
             ReadMessage();
         }
 
-        private void ReadMessage()
+        private async void ReadMessage()
         {
-            _message = _connector.ReadMessage();
-
+            await _connector.ReadMessageAsync();
         }
+
     }
 }

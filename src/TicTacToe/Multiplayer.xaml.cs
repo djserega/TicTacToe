@@ -55,7 +55,11 @@ namespace TicTacToe
         {
             TextBlockAwaitingConnection.Visibility = Visibility.Visible;
 
-            _mpServer = new MultiplayerClientServer() { CurrentIP = _currentIP };
+            _mpServer = new MultiplayerClientServer()
+            {
+                ReceivedMessage = ((MainWindow)Owner).ReceivedMessage,
+                CurrentIP = _currentIP
+            };
             _mpServer.StartServer();
 
             TextBlockAwaitingConnection.Visibility = Visibility.Collapsed;
@@ -71,13 +75,15 @@ namespace TicTacToe
             {
                 TransportObjects transport = new TransportObjects
                 {
-                    TypeTransport = TypeTransportObject.AwaitConnection,
-                    Text = "Инициализация подключения"
+                    TypeTransport = TypeTransportObject.AwaitConnection
                 };
 
                 TextBlockInProgressConnection.Visibility = Visibility.Visible;
 
-                _mpClient = new MultiplayerClientServer(IPOpponent.IP);
+                _mpClient = new MultiplayerClientServer(IPOpponent.IP)
+                {
+                    ReceivedMessage = ((MainWindow)Owner).ReceivedMessage,
+                };
                 _mpClient.StartClient(transport.ToString());
 
                 TextBlockInProgressConnection.Visibility = Visibility.Collapsed;
