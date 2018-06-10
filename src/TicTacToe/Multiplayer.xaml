@@ -23,7 +23,7 @@
     </Window.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Separator Height="5"/>
+            <Separator Height="5" Background="{x:Null}"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Ваш IP" MinWidth="100"/>
                 <local:UserControlIP x:Name="IPCurrent" IsReadOnly="True"/>
@@ -32,18 +32,18 @@
                 <Label Content="IP соперника" MinWidth="100"/>
                 <local:UserControlIP x:Name="IPOpponent"/>
             </StackPanel>
-            <Separator Height="5"/>
+            <Separator Height="5" Background="{x:Null}"/>
 
             <Button x:Name="ButtonConnect" Content="Создать сервер" Style="{StaticResource ButtonBase}"
                     Click="ButtonConnect_Click"/>
 
-            <Separator Height="5"/>
+            <Separator Height="5" Background="{x:Null}"/>
 
             <Button x:Name="ButtonConnectOpponent" Content="Подключиться к серверу" Style="{StaticResource ButtonBase}"
                     Click="ButtonConnectOpponent_Click"/>
             <Separator Background="{x:Null}"/>
 
-            <Separator Height="10"/>
+            <Separator Height="10" Background="{x:Null}"/>
 
             <TextBlock x:Name="TextBlockAwaitingConnection" Text="Ожидание подключения" HorizontalAlignment="Center"/>
             <TextBlock x:Name="TextBlockInProgressConnection" Text="Подключаемся" HorizontalAlignment="Center"/>
