@@ -22,9 +22,14 @@ namespace TicTacToe
     public partial class Multiplayer : Window
     {
         private IPAddress _currentIP;
-        private MultiplayerServer _mpServer;
-        private MultiplayerServer _mpClient;
+        private MultiplayerClientServer _mpServer;
+        private MultiplayerClientServer _mpClient;
 
+        internal MultiplayerClientServer Server { get => _mpServer; }
+        internal MultiplayerClientServer Client { get => _mpClient; }
+
+        internal bool IsServer { get; private set; }
+        internal bool IsClient { get; private set; }
 
         public Multiplayer()
         {
@@ -39,23 +44,59 @@ namespace TicTacToe
                 return;
             }
             IPCurrent.IP = _currentIP.ToString();
+            IPOpponent.IP = _currentIP.ToString();
+
+            TextBlockAwaitingConnection.Visibility = Visibility.Collapsed;
+            TextBlockInProgressConnection.Visibility = Visibility.Collapsed;
+            TextBlockConnectionOk.Visibility = Visibility.Collapsed;
         }
 
         private void ButtonConnect_Click(object sender, RoutedEventArgs e)
         {
-            _mpServer = new MultiplayerServer() { CurrentIP = _currentIP };
+            TextBlockAwaitingConnection.Visibility = Visibility.Visible;
+
+            _mpServer = new MultiplayerClientServer() { CurrentIP = _currentIP };
             _mpServer.StartServer();
+
+            TextBlockAwaitingConnection.Visibility = Visibility.Collapsed;
+            TextBlockConnectionOk.Visibility = Visibility.Visible;
+
+            IsServer = true;
+            IsClient = false;
         }
 
         private void ButtonConnectOpponent_Click(object sender, RoutedEventArgs e)
         {
-            _mpClient = new MultiplayerServer() { OpponentIP = _currentIP };
-            _mpClient.StartClient();
+            if (IPOpponent.IsFilled)
+            {
+                TransportObjects transport = new TransportObjects
+                {
+                    TypeTransport = TypeTransportObject.AwaitConnection,
+                    Text = "Инициализация подключения"
+                };
+
+                TextBlockInProgressConnection.Visibility = Visibility.Visible;
+
+                _mpClient = new MultiplayerClientServer(IPOpponent.IP);
+                _mpClient.StartClient(transport.ToString());
+
+                TextBlockInProgressConnection.Visibility = Visibility.Collapsed;
+                TextBlockConnectionOk.Visibility = Visibility.Visible;
+
+                IsServer = false;
+                IsClient = true;
+            }
+            else
+            {
+                MessageBox.Show("Не указан IP сервера");
+                IPOpponent.Focus();
+            }
         }
 
-        private void ButtonSendMessage_Click(object sender, RoutedEventArgs e)
+        private void FormMultiplayer_Loaded(object sender, RoutedEventArgs e)
         {
-            _mpClient.SendMessage(TextBoxMessageToServer.Text);
+            Left = Owner.Left + 10;
+            Top = Owner.Top + 10;
         }
     }
 }

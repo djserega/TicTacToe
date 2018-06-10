@@ -30,11 +30,12 @@ namespace TicTacToe
 
         public bool IsReadOnly { get; set; }
 
-        public string IP { set => ParseStringIP(value); }
+        public string IP { get => GetIP(); set => ParseStringIP(value); }
+        public bool IsFilled { get => IPIsFilled(); }
         #endregion
 
         #region private variables and properties
-        private const string errorMessage = "Введите число от 0 до 255.";
+        private const string _errorMessage = "Введите число от 0 до 255.";
         #endregion
 
         #endregion
@@ -45,16 +46,7 @@ namespace TicTacToe
         {
             InitializeComponent();
         }
-
-        public UserControlIP(byte[] bytesToFill)
-        {
-            InitializeComponent();
-
-            Part1.Text = Convert.ToString(bytesToFill[0]);
-            Part2.Text = Convert.ToString(bytesToFill[1]);
-            Part3.Text = Convert.ToString(bytesToFill[2]);
-            Part4.Text = Convert.ToString(bytesToFill[3]);
-        }
+      
         #endregion
 
         #region methods
@@ -104,7 +96,7 @@ namespace TicTacToe
                         JumpLeft(previousBox, e);
                     else
                        if (currentBox.CaretIndex == currentBox.Text.Length || string.IsNullOrEmpty(currentBox.Text))
-                            JumpRight(rightNeighborBox, e);
+                        JumpRight(rightNeighborBox, e);
                     return true;
                 case Key.Right:
                     if (currentBox.CaretIndex == currentBox.Text.Length || string.IsNullOrEmpty(currentBox.Text))
@@ -173,14 +165,13 @@ namespace TicTacToe
                 try
                 {
                     Convert.ToByte(currentBox.Text);
-
                 }
                 catch (Exception exception) when (exception is FormatException || exception is OverflowException)
                 {
                     currentBox.Clear();
                     currentBox.Focus();
                     //SystemSounds.Beep.Play();
-                    MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(_errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
                 if (currentBox.CaretIndex != 2 && currentBox != Part4)
@@ -191,7 +182,7 @@ namespace TicTacToe
                 }
             }
         }
-        #endregion      
+        #endregion
 
         #endregion
 
@@ -310,10 +301,45 @@ namespace TicTacToe
         {
             string[] partsIP = value.Split('.');
 
-            Part1.Text = partsIP[0];
-            Part2.Text = partsIP[1];
-            Part3.Text = partsIP[2];
-            Part4.Text = partsIP[3];
+            if (partsIP.Count() == 4)
+            {
+                Part1.Text = partsIP[0];
+                Part2.Text = partsIP[1];
+                Part3.Text = partsIP[2];
+                Part4.Text = partsIP[3];
+            }
+            else
+            {
+                Part1.Text = "";
+                Part2.Text = "";
+                Part3.Text = "";
+                Part4.Text = "";
+            }
+        }
+
+        private string GetIP()
+        {
+            StringBuilder ip = new StringBuilder();
+
+            ip.Append(Part1.Text);
+            ip.Append(".");
+            ip.Append(Part2.Text);
+            ip.Append(".");
+            ip.Append(Part3.Text);
+            ip.Append(".");
+            ip.Append(Part4.Text);
+
+            return ip.ToString();
+        }
+
+        private bool IPIsFilled()
+        {
+            return TextBoxtTextIsFilled(Part1) && TextBoxtTextIsFilled(Part2) && TextBoxtTextIsFilled(Part3) && TextBoxtTextIsFilled(Part4);
+        }
+
+        private bool TextBoxtTextIsFilled(TextBox textBox)
+        {
+            return !string.IsNullOrWhiteSpace(textBox.Text);
         }
     }
 }

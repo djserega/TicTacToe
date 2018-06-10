@@ -35,6 +35,11 @@ namespace TicTacToe
         private readonly string _textStepWinOs = "Победа ноликов";
         private readonly string _textStepFilledAllCells = "Ничья";
 
+        private MultiplayerClientServer _connector;
+        private TransportObjects _message;
+
+        internal Board Board { get => _board; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -136,6 +141,8 @@ namespace TicTacToe
         {
             CheckValueBoard();
             CheckWin();
+
+            SendMessage();
         }
 
         private void CanvasRow1Column1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => UserStep(sender);
@@ -177,8 +184,64 @@ namespace TicTacToe
 
         private void ButtonMultiplayer_Click(object sender, RoutedEventArgs e)
         {
-            Multiplayer form = new Multiplayer();
+            Multiplayer form = new Multiplayer() { Owner = this };
             form.ShowDialog();
+
+            if (form.IsServer)
+                _connector = form.Server;
+            else if (form.IsClient)
+                _connector = form.Client;
+
+            StartMultiplayer();
+        }
+
+        private void StartMultiplayer()
+        {
+            if (_connector == null)
+                return;
+
+            _message = new TransportObjects();
+
+            if (_connector.IsServer)
+            {
+            }
+            else if (_connector.IsClient)
+            {
+                ReadMessage();
+            }
+
+            _connector.SendMessage(_message.ToString());
+        }
+
+        private void SendMessage()
+        {
+            if (_connector == null || _message == null)
+                return;
+
+            _message.Clear();
+
+            if (_connector.IsServer)
+            {
+                _message.Text = "Ход крестиков :-))";
+                _message.Board = Board;
+            }
+            else if (_connector.IsClient)
+            {
+                _message.Text = "Ход ноликов :-))";
+                _message.Board = Board;
+            }
+
+            _connector.SendMessage(_message.ToString());
+
+            _message.Clear();
+
+            ReadMessage();
+        }
+
+        private void ReadMessage()
+        {
+            _message = _connector.ReadMessage();
+
         }
     }
 }
