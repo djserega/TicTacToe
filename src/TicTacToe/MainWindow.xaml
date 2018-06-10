@@ -6,16 +6,14 @@
         xmlns:local="clr-namespace:TicTacToe"
         mc:Ignorable="d" x:Name="FormBoard"
         Title="Крестики нолики" MinHeight="350" MinWidth="350" Height="300" Width="300" MaxHeight="500" MaxWidth="500"
-        Background="DarkGray" Loaded="FormBoard_Loaded">
+        Background="Goldenrod" Loaded="FormBoard_Loaded">
     <Window.Resources>
         <Style TargetType="Button" x:Key="ButtonBase">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="TextBlock.TextAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="4" Background="LightGray" BorderBrush="#ccc" BorderThickness="2,1,2,1" >
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border CornerRadius="4" Background="DarkGoldenrod" BorderThickness="2,1,2,1" >
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -25,34 +23,39 @@
 
     <Grid>
 
-        <StackPanel Orientation="Vertical" Height="25" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal">
-                <Separator Width="10"/>
-                <Label MinWidth="20">
-                    <Label.Background>
-                        <ImageBrush ImageSource="_Xs.png" Stretch="Uniform"/>
-                    </Label.Background>
-                </Label>
-                <Label Content="="/>
-                <Label x:Name="LabelWinsXs" MinWidth="25" HorizontalContentAlignment="Center" Content="{Binding ElementName=FormBoard, Path=DataContext.WinsXs}"/>
-                <Label x:Name="LabelStep" Content="{Binding Step}" HorizontalContentAlignment="Center"
-                Width="{Binding ElementName=FormBoard, Path=ActualWidth, Converter={local:ElementsFormConverter}, ConverterParameter=155}"/>
-                <Label x:Name="LabelWinsOs" MinWidth="25" HorizontalContentAlignment="Center" Content="{Binding WinsOs}"/>
-                <Label Content="="/>
-                <Label MinWidth="20">
-                    <Label.Background>
-                        <ImageBrush ImageSource="_Os.png" Stretch="Uniform"/>
-                    </Label.Background>
-                </Label>
-                <Separator Width="10"/>
-            </StackPanel>
-        </StackPanel>
+        <Grid Height="25" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="200*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <Label MinWidth="20" Grid.Column="0">
+                <Label.Background>
+                    <ImageBrush ImageSource="_Xs.png" Stretch="Uniform"/>
+                </Label.Background>
+            </Label>
+            <Label Content="=" Grid.Column="1"/>
+            <Label x:Name="LabelWinsXs" MinWidth="25" HorizontalContentAlignment="Center" Content="{Binding ElementName=FormBoard, Path=DataContext.WinsXs}" Grid.Column="2"/>
+            <Label x:Name="LabelStep" Content="{Binding Step}" HorizontalContentAlignment="Center"
+                Width="{Binding ElementName=FormBoard, Path=ActualWidth, Converter={local:ElementsFormConverter}, ConverterParameter=155}" Grid.Column="3"/>
+            <Label x:Name="LabelWinsOs" MinWidth="25" HorizontalContentAlignment="Center" Content="{Binding WinsOs}" Grid.Column="4"/>
+            <Label Content="=" Grid.Column="5"/>
+            <Label MinWidth="20" Grid.Column="6">
+                <Label.Background>
+                    <ImageBrush ImageSource="_Os.png" Stretch="Uniform"/>
+                </Label.Background>
+            </Label>
+        </Grid>
 
         <UniformGrid Rows="3" Columns="3" Margin="2,25,2,25">
 
             <!--Row 1-->
             <Canvas x:Name="CanvasRow1Column1" Margin="2" MouseLeftButtonDown="CanvasRow1Column1_MouseLeftButtonDown">
-                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow1Column1, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow1Column1, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -65,7 +68,7 @@
             </Canvas>
 
             <Canvas x:Name="CanvasRow1Column2" Margin="2" MouseLeftButtonDown="CanvasRow1Column2_MouseLeftButtonDown">
-                <Rectangle Fill="DimGray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow1Column2, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow1Column2, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -78,7 +81,7 @@
             </Canvas>
 
             <Canvas x:Name="CanvasRow1Column3" Margin="2" MouseLeftButtonDown="CanvasRow1Column3_MouseLeftButtonDown">
-                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow1Column3, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow1Column3, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -92,7 +95,7 @@
 
             <!--Row 2-->
             <Canvas x:Name="CanvasRow2Column1" Margin="2" MouseLeftButtonDown="CanvasRow2Column1_MouseLeftButtonDown">
-                <Rectangle Fill="DimGray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow2Column1, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow2Column1, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -105,7 +108,7 @@
             </Canvas>
 
             <Canvas x:Name="CanvasRow2Column2" Margin="2" MouseLeftButtonDown="CanvasRow2Column2_MouseLeftButtonDown">
-                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow2Column2, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow2Column2, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -118,7 +121,7 @@
             </Canvas>
 
             <Canvas x:Name="CanvasRow2Column3" Margin="2" MouseLeftButtonDown="CanvasRow2Column3_MouseLeftButtonDown">
-                <Rectangle Fill="DimGray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow2Column3, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow2Column3, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -132,7 +135,7 @@
 
             <!--Row 3-->
             <Canvas x:Name="CanvasRow3Column1" Margin="2" MouseLeftButtonDown="CanvasRow3Column1_MouseLeftButtonDown">
-                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow3Column1, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow3Column1, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -145,7 +148,7 @@
             </Canvas>
 
             <Canvas x:Name="CanvasRow3Column2" Margin="2" MouseLeftButtonDown="CanvasRow3Column2_MouseLeftButtonDown">
-                <Rectangle Fill="DimGray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow3Column2, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow3Column2, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -158,7 +161,7 @@
             </Canvas>
 
             <Canvas x:Name="CanvasRow3Column3" Margin="2" MouseLeftButtonDown="CanvasRow3Column3_MouseLeftButtonDown">
-                <Rectangle Fill="Gray" RadiusX="5" RadiusY="5"
+                <Rectangle Fill="DarkGoldenrod" RadiusX="5" RadiusY="5"
                            Width="{Binding ElementName=CanvasRow3Column3, Path=ActualWidth}"
                            Height="{Binding ElementName=CanvasRow3Column3, Path=ActualHeight}"/>
                 <Rectangle RadiusX="5" RadiusY="5"
@@ -172,19 +175,20 @@
 
         </UniformGrid>
 
-        <StackPanel Orientation="Vertical" Height="23" VerticalAlignment="Bottom">
-            <StackPanel Orientation="Horizontal">
-                <Separator Width="10"/>
-                <Button x:Name="ButtonStartOver" Content="Начать с начала" Style="{StaticResource ButtonBase}" Click="ButtonStartOver_Click"/>
-                <Separator Width="10"/>
-                <Button x:Name="ButtonMultiplayer" Content="Играть с другом" Style="{StaticResource ButtonBase}"
-                        Width="{Binding ElementName=FormBoard, Path=ActualWidth, Converter={local:ElementsFormConverter}, ConverterParameter=245}"
+        <Grid Height="23" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ButtonStartOver" Grid.Column="0" Content="Начать с начала" Style="{StaticResource ButtonBase}" Click="ButtonStartOver_Click"/>
+            <Button x:Name="ButtonMultiplayer" Grid.Column="2" Content="Играть с другом" Style="{StaticResource ButtonBase}"
+                        Width="{Binding ElementName=FormBoard, Path=ActualWidth, Converter={local:ElementsFormConverter}, ConverterParameter=240}"
                         Click="ButtonMultiplayer_Click"/>
-                <Separator Width="10"/>
-                <Button x:Name="ButtonNextGame" Content="Следующая игра" Style="{StaticResource ButtonBase}" Click="ButtonNextGame_Click"/>
-                <Separator Width="10"/>
-            </StackPanel>
-        </StackPanel>
+            <Button x:Name="ButtonNextGame" Grid.Column="6" Content="Следующая игра" Style="{StaticResource ButtonBase}" Click="ButtonNextGame_Click"/>
+        </Grid>
 
     </Grid>
 

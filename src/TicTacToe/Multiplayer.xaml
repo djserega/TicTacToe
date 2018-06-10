@@ -5,18 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicTacToe"
         mc:Ignorable="d"
-        Background="Gray" x:Name="FormMultiplayer"
+        Background="Goldenrod" x:Name="FormMultiplayer"
         Title="Multiplayer" Height="250" Width="250"
         Loaded="FormMultiplayer_Loaded">
     <Window.Resources>
         <Style TargetType="Button" x:Key="ButtonBase">
-            <Setter Property="Background" Value="DarkGray" />
-            <Setter Property="TextBlock.TextAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="4" Background="DarkGray" BorderBrush="#ccc" BorderThickness="2,1,2,1" >
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border CornerRadius="4" Background="DarkGoldenrod" BorderThickness="2,1,2,1" >
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -31,7 +29,7 @@
                 <local:UserControlIP x:Name="IPCurrent" IsReadOnly="True"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="IP противника" MinWidth="100"/>
+                <Label Content="IP соперника" MinWidth="100"/>
                 <local:UserControlIP x:Name="IPOpponent"/>
             </StackPanel>
             <Separator Height="5"/>

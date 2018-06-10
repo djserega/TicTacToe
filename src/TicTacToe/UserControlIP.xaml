@@ -4,12 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TicTacToe"
-             mc:Ignorable="d" Background="DarkGray"
+             mc:Ignorable="d" Background="Goldenrod"
              Height="20" Width="100"
              d:DesignHeight="20" d:DesignWidth="100">
-    <Grid x:Name="wrapGrid">
+    <UserControl.Resources>
+        <Style TargetType="TextBox" x:Key="TextBoxPart">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="MaxLength" Value="3"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style> 
+    </UserControl.Resources>
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" Name="column"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
@@ -18,26 +27,22 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" Name="row"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="Part1" Grid.Column="0" BorderThickness="0" Background="{x:Null}" MaxLength="3"
-                 TextAlignment="Center" VerticalAlignment="Center"
+        <TextBox x:Name="Part1" Grid.Column="0" Style="{StaticResource TextBoxPart}"
                  PreviewKeyDown="FirstByte_PreviewKeyDown" PreviewTextInput="FirstByte_PreviewTextInput" TextChanged="FirstByte_TextChanged" />
         <TextBlock Grid.Column="1" Text="." VerticalAlignment="Center" TextAlignment="Center"/>
 
-        <TextBox x:Name="Part2" Grid.Column="2" BorderThickness="0" Background="{x:Null}" MaxLength="3" 
-                 TextAlignment="Center" VerticalAlignment="Center"
+        <TextBox x:Name="Part2" Grid.Column="2" Style="{StaticResource TextBoxPart}"
                  PreviewKeyDown="SecondByte_PreviewKeyDown" PreviewTextInput="SecondByte_PreviewTextInput" TextChanged="SecondByte_TextChanged" />
         <TextBlock Grid.Column="3" Text="." VerticalAlignment="Center" TextAlignment="Center"/>
 
-        <TextBox x:Name="Part3" Grid.Column="4" BorderThickness="0" Background="{x:Null}" MaxLength="3" 
-                 TextAlignment="Center" VerticalAlignment="Center"                      
+        <TextBox x:Name="Part3" Grid.Column="4" Style="{StaticResource TextBoxPart}"
                  PreviewKeyDown="ThirdByte_PreviewKeyDown" PreviewTextInput="ThirdByte_PreviewTextInput" TextChanged="ThirdByte_TextChanged"/>
         <TextBlock Grid.Column="5" Text="." VerticalAlignment="Center" TextAlignment="Center"/>
 
-        <TextBox x:Name="Part4" Grid.Column="6" BorderThickness="0" Background="{x:Null}" MaxLength="3"
-                 TextAlignment="Center" VerticalAlignment="Center"                     
+        <TextBox x:Name="Part4" Grid.Column="6" Style="{StaticResource TextBoxPart}"
                  PreviewKeyDown="FourthByte_PreviewKeyDown" PreviewTextInput="FourthByte_PreviewTextInput" TextChanged="FourthByte_TextChanged" />
     </Grid>
 </UserControl>
