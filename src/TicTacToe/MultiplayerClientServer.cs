@@ -106,7 +106,7 @@ namespace TicTacToe
                     }
                     catch (IOException)
                     {
-                        MessageBox.Show("Соединение разорвано.");
+                        //MessageBox.Show("Соединение разорвано.");
                         break;
                     }
 
@@ -122,7 +122,7 @@ namespace TicTacToe
                 }
                 else
                 {
-                    MessageBox.Show("Соединение разорвано");
+                    //MessageBox.Show("Соединение разорвано");
                     break;
                 }
 

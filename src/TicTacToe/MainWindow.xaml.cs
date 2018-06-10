@@ -59,8 +59,11 @@ namespace TicTacToe
         {
             if (!string.IsNullOrEmpty(_receivedMessage.Message.Text))
             {
-                Step = _receivedMessage.Message.Text;
-                _board = _receivedMessage.Message.Board;
+                _message = _receivedMessage.Message;
+
+                Step = _message.Text;
+                _board = _message.Board;
+                _step = _message.TypeTransport == TypeTransportObject.StepXs;
                 Step += " --- ";
                 Dispatcher.Invoke(new ThreadStart(delegate
                 {
@@ -217,6 +220,7 @@ namespace TicTacToe
             {
                 _connector.ReceivedMessage = _receivedMessage;
                 _message = new TransportObjects();
+                ReadMessage();
             }
         }
 
@@ -232,8 +236,6 @@ namespace TicTacToe
             _message.Board = Board;
 
             _connector.SendMessage(_message.ToString());
-
-            ReadMessage();
         }
 
         private async void ReadMessage()

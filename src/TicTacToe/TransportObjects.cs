@@ -58,7 +58,7 @@ namespace TicTacToe
                     Board = new Board();
                 Board.Parse(deserializer.Deserialize<string>(message[2]));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
